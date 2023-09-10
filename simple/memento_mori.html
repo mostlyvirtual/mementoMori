@@ -17,7 +17,17 @@
 <body>
   <div class="content">
     <div class="whitespace"></div>
-    <div class="title">MEMENTO MORI</div>
+    <div class="title">
+      MEMENTO MORI
+      <div class="tooltip">?
+        <span class="tooltiptext"><p>Memento Mori is a Latin phrase that means 'remember that you must die'. <br>It serves as a reminder of human mortality and the value of time. <br>Generating this calendar will show you how many weeks you've lived and how many you have left. Use them wisely.</p></span>
+      </div>
+    </div>
+    <div class="input-container">
+      <label for="birthday">Enter your birthday:</label>
+      <input type="date" id="birthday" name="birthday" placeholder="DD/MM/YYYY">
+      <button id="generateBtn" class="small-action-button">Generate Calendar</button>
+    </div>
 
     <!-- Will be filled by javascript later -->
     <div id="calendar"></div>
@@ -37,7 +47,7 @@
     <div class="whitespace"></div>
   </div>
   <div class="download">
-    <button id="downloadBtn">Download Calender!</button>
+    <button id="downloadBtn">Download Calendar!</button>
   </div>
 
   <script src="script.js"></script>

@@ -3,11 +3,11 @@ const cols_per_rect = get_css_variable("--cols-per-rect");
 
 let calendar = document.getElementById("calendar");
 
-const life_expectancy = 60;
+const life_expectancy = 80;
 let numDecades = Math.floor(life_expectancy / 10);
 populate_calendar(numDecades);
 
-// fill_calendar("16/12/1999");
+// fill_calendar("18/09/1987");
 
 /**
 * Fill every week, counting from the given bday
@@ -109,6 +109,7 @@ function spawn_rectangle(rows, cols) {
 function spawn_cell() {
     const div = document.createElement("div");
     div.classList.add("week-cell");
+    div.textContent = "?"; // Add this line to include a question mark
     return div;
 }
 
@@ -120,13 +121,62 @@ function get_css_variable(name) {
         name
     );
 }
+
+function countCells() {
+    const cells = document.querySelectorAll('.week-cell');
+    const actualWeeks = life_expectancy * 52;  // Assuming 52 weeks per year
+    console.log("Total number of cells:", cells.length);
+    console.log("Actual number of weeks:", actualWeeks);
+  }
+
+countCells();
+
+
+document.querySelector(".tooltip").addEventListener("mouseover", function() {
+    document.getElementById("tooltip-content-id").style.display = "block";
+  });
+
+  document.querySelector(".tooltip").addEventListener("mouseout", function() {
+    document.getElementById("tooltip-content-id").style.display = "none";
+  });
+
+  // Optionally, you can add this to make it work on click as well
+  document.querySelector(".tooltip").addEventListener("click", function() {
+    const tooltip = document.getElementById("tooltip-content-id");
+    tooltip.style.display = (tooltip.style.display === "none" || tooltip.style.display === "") ? "block" : "none";
+  });
+
+
+document.getElementById("generateBtn").addEventListener("click", function() {
+    const birthdayInput = document.getElementById("birthday").value;
+    const [year, month, day] = birthdayInput.split("-");
+    const formattedBirthday = `${day}/${month}/${year}`;
+    fill_calendar(formattedBirthday);
+  });
+
+
+
 document.getElementById("downloadBtn").addEventListener("click", () => {
-	html2canvas(document.querySelector(".content")).then((canvas) => {
-            let anchorTag = document.createElement("a");
-        	document.body.appendChild(anchorTag);
-            anchorTag.download = "mementoMori.png";
-            anchorTag.href = canvas.toDataURL();
-			anchorTag.target = '_blank';
-			anchorTag.click(); 
-		});
- });
+// Hide elements
+    const tooltip = document.querySelector('.tooltip');
+    const inputContainer = document.querySelector('.input-container');
+
+    const originalTooltipDisplay = tooltip.style.display;
+    const originalInputContainerDisplay = inputContainer.style.display;
+
+    tooltip.style.display = 'none';
+    inputContainer.style.display = 'none';
+
+    html2canvas(document.querySelector(".content")).then((canvas) => {
+        // Show elements again
+        tooltip.style.display = originalTooltipDisplay;
+        inputContainer.style.display = originalInputContainerDisplay;
+
+        let anchorTag = document.createElement("a");
+        document.body.appendChild(anchorTag);
+        anchorTag.download = "mementoMori.png";
+        anchorTag.href = canvas.toDataURL();
+        anchorTag.target = '_blank';
+        anchorTag.click();
+    });
+});
